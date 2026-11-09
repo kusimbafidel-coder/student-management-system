@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard | Student Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Student Dashboard</h1>
+        <nav aria-label="Main navigation">
+            <a href="index.html">Home</a>
+            <a href="index.html#about">About</a>
+            <a href="dashboard.html">Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <p><a href="database.sql">Open the SQLite SQL file</a> to create the table and run add, view, or delete commands.</p>
+
+        <section class="panel">
+            <h2>Add a student</h2>
+            <p class="message">This HTML form is a layout example only. HTML cannot save a record to SQLite. Add the record by running the INSERT example in <a href="database.sql">database.sql</a>.</p>
+            <form>
+                <div class="form-grid">
+                    <label>Student number<input type="text" placeholder="e.g. STU-001" disabled></label>
+                    <label>Full name<input type="text" placeholder="Student name" disabled></label>
+                    <label>Email<input type="email" placeholder="student@example.com" disabled></label>
+                    <label>Phone<input type="tel" placeholder="Phone number" disabled></label>
+                    <label>Programme<input type="text" placeholder="Programme" disabled></label>
+                    <label>Year of study<input type="number" min="1" max="8" placeholder="1 to 8" disabled></label>
+                </div>
+                <p><button type="button" disabled>Save student in SQLite</button></p>
+            </form>
+        </section>
+
+        <section class="panel">
+            <h2>Student records</h2>
+            <p>The rows below are examples. Run the SELECT statement in <a href="database.sql">database.sql</a> to view the actual database records.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student number</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Programme</th>
+                            <th>Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>STU-001</td>
+                            <td>Maya Chen</td>
+                            <td>maya@example.com</td>
+                            <td>Computer Science</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>STU-002</td>
+                            <td>Omar Ali</td>
+                            <td>omar@example.com</td>
+                            <td>Information Systems</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Delete a student</h2>
+            <p>To delete a record, run a DELETE statement in <a href="database.sql">database.sql</a> and use the student's number in its WHERE condition.</p>
+        </section>
+    </main>
+
+    <footer>Student Management System · SQLite examples are in database.sql</footer>
+</body>
+</html>

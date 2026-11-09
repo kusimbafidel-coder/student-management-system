@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Student Management System</h1>
+        <nav aria-label="Main navigation">
+            <a href="index.html">Home</a>
+            <a href="#about">About</a>
+            <a href="dashboard.html">Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="welcome">
+            <h2>Student records made simple</h2>
+            <p>This project stores basic student information in an SQLite database. Use the dashboard to see the student form and sample records.</p>
+            <a class="button" href="dashboard.html">Open dashboard</a>
+        </section>
+
+        <section class="panel" id="about">
+            <h2>About the project</h2>
+            <p>The database contains one <strong>students</strong> table with each student's number, name, email, phone, programme, and year of study.</p>
+            <p>This project uses plain HTML and CSS for its pages and SQL for database commands. HTML pages cannot connect to SQLite on their own, so use a SQLite program to run the commands in <a href="database.sql">database.sql</a>.</p>
+        </section>
+    </main>
+
+    <footer>Student Management System · HTML, CSS and SQLite</footer>
+</body>
+</html>
