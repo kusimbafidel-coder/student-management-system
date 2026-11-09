@@ -9,27 +9,39 @@
 <body>
     <header>
         <h1>Student Management System</h1>
-        <nav aria-label="Main navigation">
+        <nav>
             <a href="index.html">Home</a>
             <a href="#about">About</a>
-            <a href="dashboard.html">Dashboard</a>
+            <a href="server/index.php">Students</a>
+            <a href="server/courses.php">Courses</a>
+            <a href="server/attendance.php">Attendance</a>
+            <a href="server/results.php">Exam results</a>
         </nav>
     </header>
 
     <main>
         <section class="welcome">
-            <h2>Student records made simple</h2>
-            <p>This project stores basic student information in an SQLite database. Use the dashboard to see the student form and sample records.</p>
-            <a class="button" href="dashboard.html">Open dashboard</a>
+            <h2>Welcome to the Student Management System</h2>
+            <p>This project helps a school manage student details, courses, attendance, and exam results. Add, view, or delete these records using the pages in the navigation.</p>
+            <a class="button" href="server/index.php">View student records</a>
         </section>
 
-        <section class="panel" id="about">
-            <h2>About the project</h2>
-            <p>The database contains one <strong>students</strong> table with each student's number, name, email, phone, programme, and year of study.</p>
-            <p>This project uses plain HTML and CSS for its pages and SQL for database commands. HTML pages cannot connect to SQLite on their own, so use a SQLite program to run the commands in <a href="database.sql">database.sql</a>.</p>
+        <section id="about">
+            <h2>About this project</h2>
+            <p>The system has four related parts: student details, courses, attendance, and exam results. Attendance and exam records are linked to students, and exam results are also linked to courses.</p>
+            <p>This project uses HTML and CSS for the pages, PHP for the backend, and the MySQL database included with XAMPP to store records. The other pages show a student's name and course name by looking up their IDs in the related tables.</p>
+            <p class="note">Start Apache and MySQL in XAMPP, then open this site at http://localhost/your-folder-name/. Do not open index.html directly; PHP pages will download instead of running.</p>
+        </section>
+
+        <section>
+            <h2>What you can explore</h2>
+            <ul>
+                <li>Keep a list of students and courses.</li>
+                <li>Record whether a student was present or absent on a date.</li>
+                <li>Save a student's exam grade and marks for a course.</li>
+            </ul>
+            <a class="button" href="server/index.php">Open the Students page</a>
         </section>
     </main>
-
-    <footer>Student Management System · HTML, CSS and SQLite</footer>
 </body>
 </html>

@@ -1,28 +1,38 @@
--- Create the student table.
+CREATE DATABASE IF NOT EXISTS student_management;
+USE student_management;
+
 CREATE TABLE IF NOT EXISTS students (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    student_number TEXT NOT NULL UNIQUE,
-    full_name TEXT NOT NULL,
-    email TEXT NOT NULL UNIQUE,
-    phone TEXT,
-    programme TEXT NOT NULL,
-    year_of_study INTEGER NOT NULL CHECK (year_of_study BETWEEN 1 AND 8),
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP
-);
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    enrollment_date DATE NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Add two example students.
-INSERT OR IGNORE INTO students
-    (student_number, full_name, email, phone, programme, year_of_study)
-VALUES
-    ('STU-001', 'Maya Chen', 'maya@example.com', '555-0101', 'Computer Science', 2),
-    ('STU-002', 'Omar Ali', 'omar@example.com', '555-0102', 'Information Systems', 1);
+CREATE TABLE IF NOT EXISTS courses (
+    course_id INT AUTO_INCREMENT PRIMARY KEY,
+    course_code VARCHAR(20) NOT NULL UNIQUE,
+    course_name VARCHAR(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- View all student records.
-SELECT * FROM students;
+CREATE TABLE IF NOT EXISTS attendance (
+    attendance_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    attendance_date DATE NOT NULL,
+    status ENUM('Present', 'Absent') NOT NULL,
+    UNIQUE (student_id, attendance_date),
+    FOREIGN KEY (student_id) REFERENCES students(student_id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Add another student: edit the example values, then run this INSERT.
--- INSERT INTO students (student_number, full_name, email, phone, programme, year_of_study)
--- VALUES ('STU-003', 'Student Name', 'student@example.com', '555-0103', 'Programme', 1);
-
--- Delete one student: change the number to the record you want to delete.
--- DELETE FROM students WHERE student_number = 'STU-002';
+CREATE TABLE IF NOT EXISTS exam_results (
+    exam_result_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT NOT NULL,
+    course_id INT NOT NULL,
+    exam_date DATE NOT NULL,
+    grade VARCHAR(5) NOT NULL,
+    marks DECIMAL(5, 2) NOT NULL CHECK (marks BETWEEN 0 AND 100),
+    FOREIGN KEY (student_id) REFERENCES students(student_id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

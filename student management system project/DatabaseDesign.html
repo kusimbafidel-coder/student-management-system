@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Management System - Database Design</title>
+    <style>
+        @page { size: A4; margin: 15mm; }
+        body { color: #23332b; font: 9pt Arial, sans-serif; line-height: 1.3; }
+        h1, h2 { color: #176b4a; }
+        h1 { font-size: 22pt; margin: 0 0 4pt; }
+        h2 { font-size: 14pt; margin: 14pt 0 6pt; }
+        p { margin: 4pt 0; }
+        .eyebrow { color: #176b4a; font-size: 8pt; font-weight: bold; letter-spacing: 1.3pt; }
+        .subtitle, .footer { color: #64736c; }
+        .diagram { border: 1px solid #dce6e0; padding: 8pt; }
+        .entities { border-collapse: separate; border-spacing: 6pt; table-layout: fixed; width: 100%; }
+        .entities td { border: 1px solid #dce6e0; padding: 0; vertical-align: top; width: 50%; }
+        .entities h3 { background: #176b4a; color: white; font-size: 10pt; margin: 0; padding: 5pt; }
+        .entities p { border-bottom: 1px solid #e3ebe6; margin: 0; padding: 3pt 6pt; }
+        .key { color: #176b4a; font-size: 8pt; font-weight: bold; margin-right: 5pt; }
+        .relationships { margin-top: 6pt; }
+        table.schema { border-collapse: collapse; table-layout: fixed; width: 100%; }
+        .schema th, .schema td { border: 1px solid #dce6e0; font-size: 8pt; padding: 4pt 5pt; text-align: left; }
+        .schema th { background: #eaf3ee; }
+        .page-break { break-before: page; page-break-before: always; }
+        .footer { border-top: 1px solid #dce6e0; font-size: 8pt; margin-top: 16pt; padding-top: 6pt; }
+    </style>
+</head>
+<body>
+    <p class="eyebrow">GROUP WORK CAT 2 · DATABASE DESIGN</p>
+    <h1>Student Management System</h1>
+    <p class="subtitle">Database design · XAMPP and MySQL</p>
+
+    <h2>Project scope</h2>
+    <p>This database stores student details, courses, attendance, and exam results. Staff can add, view, and delete records through the website.</p>
+
+    <h2>Entity-relationship diagram</h2>
+    <div class="diagram">
+        <table class="entities">
+            <tr>
+                <td>
+                    <h3>STUDENTS</h3>
+                    <p><span class="key">PK</span>student_id</p>
+                    <p>student_name</p>
+                    <p>email (unique)</p>
+                    <p>enrollment_date</p>
+                </td>
+                <td>
+                    <h3>COURSES</h3>
+                    <p><span class="key">PK</span>course_id</p>
+                    <p>course_code (unique)</p>
+                    <p>course_name</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3>ATTENDANCE</h3>
+                    <p><span class="key">PK</span>attendance_id</p>
+                    <p><span class="key">FK</span>student_id</p>
+                    <p>attendance_date, status</p>
+                </td>
+                <td>
+                    <h3>EXAM_RESULTS</h3>
+                    <p><span class="key">PK</span>exam_result_id</p>
+                    <p><span class="key">FK</span>student_id, course_id</p>
+                    <p>exam_date, grade, marks</p>
+                </td>
+            </tr>
+        </table>
+        <div class="relationships">
+            <p>STUDENTS 1 ─── many ATTENDANCE records</p>
+            <p>STUDENTS 1 ─── many EXAM_RESULTS</p>
+            <p>COURSES 1 ─── many EXAM_RESULTS</p>
+        </div>
+    </div>
+    <p>Attendance refers to a student. An exam result refers to a student and a course. The website looks up names from these tables instead of storing duplicate copies.</p>
+
+    <h2 class="page-break">Database tables and columns</h2>
+    <h3>Students</h3>
+    <ul>
+        <li><strong>student_id</strong> — INT, primary key, auto-increment.</li>
+        <li><strong>student_name</strong> — VARCHAR(100), required.</li>
+        <li><strong>email</strong> — VARCHAR(100), required and unique.</li>
+        <li><strong>enrollment_date</strong> — DATE, required.</li>
+    </ul>
+
+    <h3>Courses</h3>
+    <ul>
+        <li><strong>course_id</strong> — INT, primary key, auto-increment.</li>
+        <li><strong>course_code</strong> — VARCHAR(20), required and unique.</li>
+        <li><strong>course_name</strong> — VARCHAR(100), required.</li>
+    </ul>
+
+    <h3>Attendance</h3>
+    <ul>
+        <li><strong>attendance_id</strong> — INT, primary key, auto-increment.</li>
+        <li><strong>student_id</strong> — INT, foreign key to Students.</li>
+        <li><strong>attendance_date</strong> — DATE; one record per student per day.</li>
+        <li><strong>status</strong> — ENUM: Present or Absent.</li>
+    </ul>
+
+    <h3>ExamResults</h3>
+    <ul>
+        <li><strong>exam_result_id</strong> — INT, primary key, auto-increment.</li>
+        <li><strong>student_id</strong> — INT, foreign key to Students.</li>
+        <li><strong>course_id</strong> — INT, foreign key to Courses.</li>
+        <li><strong>exam_date</strong> — DATE, required.</li>
+        <li><strong>grade</strong> — VARCHAR(5), required.</li>
+        <li><strong>marks</strong> — DECIMAL(5,2), required, from 0 to 100.</li>
+    </ul>
+
+    <p class="eyebrow page-break">DATABASE RULES AND APP</p>
+    <h1>Keys, relationships &amp; operations</h1>
+    <h2>Database rules</h2>
+    <ul>
+        <li>Each table has its own auto-incrementing primary key.</li>
+        <li>Student email and course code must be unique.</li>
+        <li>Each student can have one attendance record per day; status is Present or Absent.</li>
+        <li>Exam marks must be between 0 and 100.</li>
+        <li>Attendance links to a student. Exam results link to a student and a course.</li>
+        <li>Deleting a student removes their attendance and results. Deleting a course removes its results.</li>
+    </ul>
+
+    <h2>Website operations</h2>
+    <table class="schema">
+        <thead><tr><th>Page</th><th>Operations</th></tr></thead>
+        <tbody>
+            <tr><td>Students</td><td>Add, view, and delete student details.</td></tr>
+            <tr><td>Courses</td><td>Add, view, and delete courses.</td></tr>
+            <tr><td>Attendance</td><td>Record, view, and delete a student's attendance.</td></tr>
+            <tr><td>Exam results</td><td>Record, view, and delete a student's grade and marks for a course.</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Technology</h2>
+    <p>HTML and CSS provide the pages, PHP processes forms, and MySQL stores the data. Use <code>database.sql</code> to create the database and tables.</p>
+    <p class="footer">Student Management System · XAMPP / PHP / MySQL</p>
+</body>
+</html>
